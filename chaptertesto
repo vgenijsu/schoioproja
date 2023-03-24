@@ -1,0 +1,73 @@
+# Ниже представлено тестирование скорости объектов FastFunctor и SlowFunctor
+   # (статья "Функциональное программирование на Python", см. сноску после блока кода)
+   # из IPython (для удобства чтения лог немного изменен)
+   # строки, начинающиеся с "In [XX]:" вводятся, остальные — вывод интерпретатора 
+   In [1]: import fastfunctor  
+   In [2]: func = lambda x : x + 1                   # Создаем очень простую функцию
+   In [3]: vl = 1                                    # Переменная, для предотвращения оптимизации
+   In [4]: functor = fastfunctor.Functor(func)
+   In [5]: %timeit (functor + functor + 1)(vl)       # Тестируем "лобовой" способ
+   1000 loops, best of 3: 661 mks per loop           # Очень медленно
+   In [6]: functor2 = (functor + functor + 1)        # Конструируем функтор один раз
+   In [7]: %timeit functor2(vl)                      # и тестируем только непосредственно вызов
+   100000 loops, best of 3: 4.52 mks per loop        # Значительно лучше
+   In [8]: functor3 = (functor + functor + 1).fast() # Получаем результирующую функцию
+   In [9]: %timeit functor3(vl) 
+   1000000 loops, best of 3: 1.42 mks per loop
+   In [10]: def of(vl): return x(vl) + x(vl) + 1     # Создаем функцию "вручную"
+   In [11]: %timeit of(vl)
+   1000000 loops, best of 3: 1.42 mks per loop       # Скорость полностью совпадает со 
+                                                     # скоростью функтора
+   In [12]: sfunctor = SlowFunctor(func)             # Простая реализация функтора
+   In [13]: sfunctor = sfunctor + sfunctor + 1       # 
+   In [14]: %timeit sfunctor(vl)                     # 
+   100000 loops, best of 3: 12.6 mks per loop        # Примерно в 9 раз медленнее, чем статический 
+                                                     # вариант# Ниже представлено тестирование скорости объектов FastFunctor и SlowFunctor
+   # (статья "Функциональное программирование на Python", см. сноску после блока кода)
+   # из IPython (для удобства чтения лог немного изменен)
+   # строки, начинающиеся с "In [XX]:" вводятся, остальные — вывод интерпретатора 
+   In [1]: import fastfunctor  
+   In [2]: func = lambda x : x + 1                   # Создаем очень простую функцию
+   In [3]: vl = 1                                    # Переменная, для предотвращения оптимизации
+   In [4]: functor = fastfunctor.Functor(func)
+   In [5]: %timeit (functor + functor + 1)(vl)       # Тестируем "лобовой" способ
+   1000 loops, best of 3: 661 mks per loop           # Очень медленно
+   In [6]: functor2 = (functor + functor + 1)        # Конструируем функтор один раз
+   In [7]: %timeit functor2(vl)                      # и тестируем только непосредственно вызов
+   100000 loops, best of 3: 4.52 mks per loop        # Значительно лучше
+   In [8]: functor3 = (functor + functor + 1).fast() # Получаем результирующую функцию
+   In [9]: %timeit functor3(vl) 
+   1000000 loops, best of 3: 1.42 mks per loop
+   In [10]: def of(vl): return x(vl) + x(vl) + 1     # Создаем функцию "вручную"
+   In [11]: %timeit of(vl)
+   1000000 loops, best of 3: 1.42 mks per loop       # Скорость полностью совпадает со 
+                                                     # скоростью функтора
+   In [12]: sfunctor = SlowFunctor(func)             # Простая реализация функтора
+   In [13]: sfunctor = sfunctor + sfunctor + 1       # 
+   In [14]: %timeit sfunctor(vl)                     # 
+   100000 loops, best of 3: 12.6 mks per loop        # Примерно в 9 раз медленнее, чем статический 
+                                                     # вариант# Ниже представлено тестирование скорости объектов FastFunctor и SlowFunctor
+   # (статья "Функциональное программирование на Python", см. сноску после блока кода)
+   # из IPython (для удобства чтения лог немного изменен)
+   # строки, начинающиеся с "In [XX]:" вводятся, остальные — вывод интерпретатора 
+   In [1]: import fastfunctor  
+   In [2]: func = lambda x : x + 1                   # Создаем очень простую функцию
+   In [3]: vl = 1                                    # Переменная, для предотвращения оптимизации
+   In [4]: functor = fastfunctor.Functor(func)
+   In [5]: %timeit (functor + functor + 1)(vl)       # Тестируем "лобовой" способ
+   1000 loops, best of 3: 661 mks per loop           # Очень медленно
+   In [6]: functor2 = (functor + functor + 1)        # Конструируем функтор один раз
+   In [7]: %timeit functor2(vl)                      # и тестируем только непосредственно вызов
+   100000 loops, best of 3: 4.52 mks per loop        # Значительно лучше
+   In [8]: functor3 = (functor + functor + 1).fast() # Получаем результирующую функцию
+   In [9]: %timeit functor3(vl) 
+   1000000 loops, best of 3: 1.42 mks per loop
+   In [10]: def of(vl): return x(vl) + x(vl) + 1     # Создаем функцию "вручную"
+   In [11]: %timeit of(vl)
+   1000000 loops, best of 3: 1.42 mks per loop       # Скорость полностью совпадает со 
+                                                     # скоростью функтора
+   In [12]: sfunctor = SlowFunctor(func)             # Простая реализация функтора
+   In [13]: sfunctor = sfunctor + sfunctor + 1       # 
+   In [14]: %timeit sfunctor(vl)                     # 
+   100000 loops, best of 3: 12.6 mks per loop        # Примерно в 9 раз медленнее, чем статический 
+                                                     # вариант
